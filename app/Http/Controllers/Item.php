@@ -21,7 +21,7 @@ class Item extends Controller
 
     public function index()
     {
-        dd($this->mdlItem->all());
+        //dd($this->mdlItem->all());
         return view('start');
     }
 
