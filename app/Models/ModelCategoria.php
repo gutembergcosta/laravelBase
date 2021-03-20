@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class ModelCategoria extends Model
 {
     protected $table = 'categorias';
+
+    public function relItem(){
+        return $this->hasMany('App\Models\ModelItem', 'id_categoria');
+    }
 }

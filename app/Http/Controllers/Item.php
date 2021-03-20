@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ValidaItem;
 use App\Models\ModelItem;
 use App\Models\ModelCategoria;
 
@@ -18,76 +18,48 @@ class Item extends Controller
         $this->mdlCategoria = new ModelCategoria();
     }
 
-
-    public function index()
+    public function pagina($id = false)
     {
-        //dd($this->mdlItem->all());
-        return view('start');
+
+        if($id){
+            $data['item'] = $this->mdlItem->find($id);
+        }
+
+        $data['categorias'] = $this->mdlCategoria->all()->sortByDesc('nome');
+        $data['lista'] = $this->mdlItem->all()->sortByDesc('nome');
+
+        return view('start')->with('data', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function salvar(ValidaItem $request)
     {
-        //
+      
+        $data['nome'] = $request->nome;
+        $data['id_categoria'] = $request->categoria;
+        $data['id_user'] = 0;
+        $data['tipo'] = 'teste';
+
+        if($request->id){
+            if($this->mdlItem->where(['id' => $request->id])->update($data)){
+                $msg = 'Item inserido com sucesso';
+            };
+        }else{
+            if($this->mdlItem->create($data)){
+                $msg = 'Item atualizado com sucesso';
+            }
+        }
+
+        return redirect('item')->with('msg', $msg);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function deletar($id)
     {
-        //
+        if($this->mdlItem->destroy($id)){
+            return response()->json([
+                'status' => 0,
+                'msg' => 'Registro excluído com sucesso!'
+            ]);    
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
