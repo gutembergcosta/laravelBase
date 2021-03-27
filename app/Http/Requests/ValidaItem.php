@@ -24,7 +24,8 @@ class ValidaItem extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required'
+            'nome' => 'required',
+            'categoria' => 'required',
         ];
     }
 }

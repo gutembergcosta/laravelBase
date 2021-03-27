@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    @yield('metatags')
 
     <link rel="stylesheet" href="{{url('assets/bootstrap/css/bootstrap.min.css')}}">
     <script src="{{url('assets/bootstrap/js/jquery.js')}}"></script>
@@ -20,7 +22,6 @@
     
     @yield('navbar')
     @yield('pagina')
-
     @yield('scriptsPagina')
 
 </body>

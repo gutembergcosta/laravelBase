@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ValidaItem;
+
+use Illuminate\Http\Request;
 use App\Models\ModelItem;
 use App\Models\ModelCategoria;
 
@@ -20,7 +21,6 @@ class Item extends Controller
 
     public function pagina($id = false)
     {
-
         if($id){
             $data['item'] = $this->mdlItem->find($id);
         }
@@ -31,8 +31,12 @@ class Item extends Controller
         return view('start')->with('data', $data);
     }
 
-    public function salvar(ValidaItem $request)
+    public function salvar(Request $request)
     {
+        request()->validate([
+            'nome' => 'required',
+            'categoria' => 'required',
+        ]);
       
         $data['nome'] = $request->nome;
         $data['id_categoria'] = $request->categoria;

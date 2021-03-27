@@ -1,10 +1,12 @@
 @extends('blocos.base')
 
 
-
-
 @section('estilos')
-    <link rel="stylesheet" href="{{url('assets/bootstrap/css/bootstrap.min.css')}}">
+
+@endsection
+
+@section('metatags')
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
 @section('navbar')
@@ -12,9 +14,6 @@
 @stop
 
 @section('pagina')
-
-
-	
 
     <div class="container">
 
@@ -75,8 +74,6 @@
 
                 <table id="tabela" class="table table-bordered" style="margin-top: 35px">
 
-					@csrf
-
                     <thead>
                       <tr>
                         <th style="width: 50px">#</th>
@@ -118,44 +115,41 @@
 
 @section('scriptsPagina')
 	<script>
-		$(document).ready(function (e) {
+
+		function excluir(token,destino){
+		
+			
+			
+			var tkn = $('#tabela > input[name=_token]').val();	
+
+			$.ajax({
+				url: destino,    
+				dataType: "json",
+				type: 'DELETE',
+				data: {
+					'_token': token
+				},
+				success: function (data) {
+					if(data['status'] == 0 ){
+						alert(data['msg']);
+					}
+				},
+				error: function () {}
+			});
+	
+		}
+
+		$('.deletar').click(function (){
+
+			if (confirm("Deseja realmente deletar este item?") == true) {
+			
+				excluir($("meta[name='csrf-token']").attr("content"),"{{ url('item/deletar') }}"+'/'+$(this).data('id'));
+
+			}
+		});
+
 
 		
-
-			$('.deletar').click(function () {
-
-
-				var txt;
-				var r = confirm("Deseja realmente deletar este item?");
-				if (r == true) {
-					
-
-					
-
-					var tkn = $('#tabela > input[name=_token]').val();	
-
-			
-
-					$.ajax({
-						url: "{{ url('item/deletar') }}"+'/'+$(this).data('id'),    
-						dataType: "json",
-						type: 'DELETE',
-						data: {
-							'_token': $('#tabela > input[name=_token]').val()
-						},
-						success: function (data) {
-							if(data['status'] == 0 ){
-								alert(data['msg']);
-							}
-
-							
-						},
-						error: function () {}
-					});
-				};
-			});
-
-		});
 
 	</script>
 @endsection
