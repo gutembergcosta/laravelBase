@@ -45,11 +45,13 @@ class Item extends Controller
 
         if($request->id){
             if($this->mdlItem->where(['id' => $request->id])->update($data)){
-                $msg = 'Item inserido com sucesso';
+                $msg['tipo'] = 'success';
+                $msg['texto'] = 'Item atualizado com sucesso';
             };
         }else{
             if($this->mdlItem->create($data)){
-                $msg = 'Item atualizado com sucesso';
+                $msg['tipo'] = 'successso';
+                $msg['texto'] = 'Item inserido com sucesso';
             }
         }
 

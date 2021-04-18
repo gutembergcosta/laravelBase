@@ -19,10 +19,11 @@
 
 
         <h1 class="text-center">Item</h1>
-		@include('includes.mensagens')
+		
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <form method="POST" action ='{{url("item/salvar/")}}'>
+				@include('includes.mensagens')
+                <form method="POST" action ='{{url("salvar-item/")}}'>
                     <div class="form-group">
                         <label>Nome</label>
                         <input type="text" class="form-control" name="nome" value="{{$data['item']->nome ?? ''}}">
@@ -97,7 +98,7 @@
 							<td>{{$item->nome}}</td>
 							<td>{{$categoria->nome}}</td>
 							<td>
-								<a href="{{url("item/editar/$item->id")}}" type="button" class="btn btn-success btn-xs">Editar</a>
+								<a href="{{url("editar-item/$item->id")}}" type="button" class="btn btn-success btn-xs">Editar</a>
 								<a type="button" data-id="{{$item->id}}" class="btn btn-warning btn-xs deletar">Excluir</a>
 							</td>
 						</tr>
